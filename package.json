@@ -2,5 +2,10 @@
     "name": "ti-sensortags-demo",
     "description": "a delightfully fruity coffee varietal",
     "version": "0.0.1",
-    "main": "index.js"
+    "main": "index.js",
+    "author": "Ovass",
+    "dependencies": {
+        "sensortag":"1.0.2",
+        "mqtt":"1.3.5"
+    }
 }
