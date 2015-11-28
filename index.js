@@ -21,8 +21,13 @@ client.on('message', function(topic, message){
 });
 
 function publish(device, data){
-    console.log(device);
+    console.log(device.uuid);
     console.log(data);
+    for (i in deviceID){
+        if (deviceID[i].uuid = device.uuid){
+            client.publish('devices/' + deviceID[i].ovassid + '/down', data);
+        }
+    }
 }
 
 function onDiscover(device) {
