@@ -2,18 +2,28 @@ var SensorTag = require('sensortag');
 var mqtt = require('mqtt');
 
 var client  = mqtt.connect('mqtt://');
-var deviceID = "testDevice1";
-var deviceSecret = "testSecret1";
-var publishChannel = "devices/" + deviceID + "/up";
+var deviceID = [
+    {"uuid":"b0b448c04303", "ovassid":"12015112820", "secret":"************"},
+    {"uuid":"b0b448bc4d00", "ovassid":"12015112818", "secret":"************"},
+    {"uuid":"b0b448c04305", "ovassid":"12015112865", "secret":"************"},
+    {"uuid":"b0b448c08c02", "ovassid":"12015112892", "secret":"************"},
+    {"uuid":"b0b448bcd003", "ovassid":"12015112885", "secret":"************"},
+];
 
 client.on('connect', function(){
-    client.subscribe('devices/' + deviceID + '/down');
+    for (i in deviceID){
+        client.subscribe('devices/' + deviceID[i].ovassid + '/down');
+    }
 });
 
 client.on('message', function(topic, message){
-    // message is Buffer
     console.log(message.toString());
 });
+
+function publish(device, data){
+    console.log(device);
+    console.log(data);
+}
 
 function onDiscover(device) {
     console.log('Discovered device with UUID: ' + device['uuid']);
@@ -49,8 +59,7 @@ function onDiscover(device) {
             "gyroY" : y,
             "gyroZ" : z
         };
-        client.publish(publishChannel, JSON.stringify(data), function() {
-        });
+        publish(device, data);
     });
 
     device.on('accelerometerChange', function(x, y, z) {
@@ -60,8 +69,7 @@ function onDiscover(device) {
             "accelY" : y,
             "accelZ" : z
         };
-        client.publish(publishChannel, JSON.stringify(data), function() {
-        });
+        publish(device, data);
     });
 
     device.on('magnetometerChange', function(x, y, z) {
@@ -71,8 +79,7 @@ function onDiscover(device) {
             "magY" : y,
             "magZ" : z
         };
-        client.publish(publishChannel, JSON.stringify(data), function() {
-        });
+        publish(device, data);
     });
 
     function initAirSensors() {
@@ -95,8 +102,7 @@ function onDiscover(device) {
                             "ambientTemp" : ambientTemperature,
                             "temp" : temperature
                         };
-                        client.publish(publishChannel, JSON.stringify(data), function() {
-                        });
+                        publish(device, data);
                     });
                 });
             });
