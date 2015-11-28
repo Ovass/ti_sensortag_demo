@@ -2,7 +2,7 @@ var SensorTag = require('sensortag');
 var mqtt = require('mqtt');
 var canCall = true;
 
-var client  = mqtt.connect('mqtt://');
+var client  = mqtt.connect('mqtt://ovassdistribute.cloudapp.net');
 var deviceID = [
     {"uuid":"b0b448c04303", "ovassid":"12015112820", "secret":"************"},
     {"uuid":"b0b448bc4d00", "ovassid":"12015112818", "secret":"************"},
