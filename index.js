@@ -1,5 +1,6 @@
 var SensorTag = require('sensortag');
 var mqtt = require('mqtt');
+var canCall = true;
 
 var client  = mqtt.connect('mqtt://');
 var deviceID = [
@@ -21,9 +22,15 @@ client.on('message', function(topic, message){
 });
 
 function publish(device, data){
-    for (i in deviceID){
-        if (deviceID[i].uuid = device.uuid){
-            client.publish('devices/' + deviceID[i].ovassid + '/up', JSON.stringify(data));
+    if(canCall){
+        canCall = false;
+        setTimeout(function(){
+            canCall = true;
+        }, 50);
+        for (i in deviceID){
+            if (deviceID[i].uuid = device.uuid){
+                client.publish('devices/' + deviceID[i].ovassid + '/up', JSON.stringify(data));
+            }
         }
     }
 }
