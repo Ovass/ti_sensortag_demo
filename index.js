@@ -23,7 +23,7 @@ client.on('message', function(topic, message){
 function publish(device, data){
     for (i in deviceID){
         if (deviceID[i].uuid = device.uuid){
-            client.publish('devices/' + deviceID[i].ovassid + '/up', data);
+            client.publish('devices/' + deviceID[i].ovassid + '/up', JSON.stringify(data));
         }
     }
 }
